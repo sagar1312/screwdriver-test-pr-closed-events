@@ -1,0 +1,18 @@
+shared:
+  image: node:20
+  steps:
+    - init: echo 'init'
+jobs:
+  on-pr-close:
+    requires:
+      - ~pr-closed
+  component:
+    requires: [~pr, ~commit]
+  publish:
+    requires: [ component ]
+  deploy:
+    requires: [ publish ]
+  test:
+    requires: [ deploy ]
+  certify:
+    requires: [ test ]
